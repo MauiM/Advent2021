@@ -7,27 +7,46 @@ namespace Advent2021.Days
     {
         private class Data
         {
-            public string value { get; set; }
+            public int forward { get; set; }
+            public int up { get; set; }
+            public int down { get; set; }
         }
 
         public Day02() { }
 
         public string Part1()
         {
-            int valid = 0;
+            int horizontal = 0;
+            int depth = 0;
 
-            var lines = Data02.Test.ToStringList();
+            var lines = Data02.Puzzle.ToObjectList<Data>(seperator: "", keyValueSeperator: " ");
+            foreach (var line in lines)
+            {
+                horizontal += line.forward;
+                depth -= line.up;
+                depth += line.down;
+            }
 
-            return valid.ToString();
+            return $"{horizontal * depth}";
         }
 
         public string Part2()
         {
-            int valid = 0;
+            int horizontal = 0;
+            int depth = 0;
+            int aim = 0;
 
-            var lines = Data02.Test.ToStringList();
+            var lines = Data02.Puzzle.ToObjectList<Data>(seperator: "", keyValueSeperator: " ");
+            foreach (var line in lines)
+            {
+                horizontal += line.forward;
+                aim -= line.up;
+                aim += line.down;
 
-            return valid.ToString();
+                depth += (aim * line.forward);
+            }
+
+            return $"{horizontal * depth}";
         }
     }
 }

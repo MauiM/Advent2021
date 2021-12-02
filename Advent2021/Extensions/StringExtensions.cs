@@ -51,7 +51,9 @@
         {
             List<KeyValuePair<string, string>> results = new List<KeyValuePair<string, string>>();
 
-            var kvsStrings = s.Split(seperator);
+            var kvsStrings = string.IsNullOrEmpty(seperator) 
+                ? new string[1] { s }
+                : s.Split(seperator);
 
             foreach (var kvsString in kvsStrings)
             {

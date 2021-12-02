@@ -82,7 +82,22 @@
 
             foreach (var prop in typeof(T).GetProperties())
             {
-                var value = keyValuePairs.FirstOrDefault(x => x.Key.Equals(prop.Name)).Value ?? null;
+                object value = keyValuePairs.FirstOrDefault(x => x.Key.Equals(prop.Name)).Value ?? null;
+
+                if (prop.PropertyType == typeof(string)) { }
+                else if (prop.PropertyType == typeof(int))
+                {
+                    value = Convert.ToInt32(value);
+                }
+                else if (prop.PropertyType == typeof(bool))
+                {
+                    value = value?.ToString() == "1" || value?.ToString().ToLower() == "true";
+                }
+                else
+                {
+                    throw new Exception($"{prop.PropertyType} not implemented for KeyValuesToClass");
+                }
+
                 prop.SetValue(result, value);
             }
 
